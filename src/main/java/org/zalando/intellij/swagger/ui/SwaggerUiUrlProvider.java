@@ -7,6 +7,7 @@ import com.intellij.ide.browsers.OpenInBrowserRequest;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.util.PathUtil;
 import com.intellij.util.Url;
 import com.intellij.util.Urls;
 import org.jetbrains.annotations.NotNull;
@@ -45,7 +46,7 @@ public class SwaggerUiUrlProvider extends BuiltInWebBrowserUrlProvider implement
     protected Url getUrl(@NotNull OpenInBrowserRequest request, @NotNull VirtualFile file) throws BrowserException {
         return swaggerUiCreator.createSwaggerUiFiles(getSpecificationContentAsJson(request))
                 .map(swaggerUiFolderPath ->
-                        Urls.parseEncoded("file://" + swaggerUiFolderPath + "/index.html"))
+                        Urls.parseEncoded("file://" + PathUtil.getCanonicalPath(swaggerUiFolderPath) + "/index.html"))
                 .orElse(null);
     }
 
